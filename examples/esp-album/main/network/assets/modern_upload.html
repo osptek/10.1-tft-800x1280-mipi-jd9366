@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ESP32 P4 Album</title>
+    <link rel="stylesheet" href="modern_upload.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>📸 Digital Photo Album</h1>
+            <p class="subtitle">ESP32 P4 Album</p>
+        </header>
+
+        <main class="main-content">
+            <!-- Upload Section -->
+            <section class="upload-section">
+                <div class="upload-header">
+                    <h2>📤 Upload Media Files</h2>
+                    <div class="file-info">
+                        <span class="info-item">
+                            <span class="icon">🖼️</span>
+                            Images: JPG, JPEG, PNG, GIF, BMP
+                        </span>
+                        <span class="info-item">
+                            <span class="icon">🎬</span>
+                            Videos: MP4, AVI, MOV
+                        </span>
+                    </div>
+                </div>
+
+                <div class="upload-zone" id="uploadZone">
+                    <div class="upload-icon">📁</div>
+                    <div class="upload-text">
+                        <h3>Drag & Drop files here</h3>
+                        <p>or <span class="browse-link">browse to choose</span></p>
+                    </div>
+                    <input type="file" id="fileInput" multiple accept="image/jpeg,image/jpg,image/png,image/gif,image/bmp,video/mp4,video/avi,video/mov" style="display: none;">
+                </div>
+
+                <div class="upload-options">
+                    <div class="option-group">
+                        <div class="info-notice">
+                            <span class="icon">ℹ️</span>
+                            Images larger than 1080P will be automatically compressed
+                        </div>
+                    </div>
+                    <div class="option-group" style="display: none;">
+                        <label for="quality">Compression Quality:</label>
+                        <input type="range" id="quality" min="60" max="95" value="80">
+                        <span id="qualityValue">80%</span>
+                    </div>
+                </div>
+
+                <div class="file-list" id="fileList"></div>
+
+                <div class="upload-actions">
+                    <button class="btn btn-primary" id="uploadBtn" disabled>
+                        <span class="btn-icon">⬆️</span>
+                        Upload Files
+                    </button>
+                    <button class="btn btn-secondary" id="clearBtn" disabled>
+                        <span class="btn-icon">🗑️</span>
+                        Clear All
+                    </button>
+                </div>
+            </section>
+
+            <!-- Progress Section -->
+            <section class="progress-section" id="progressSection" style="display: none;">
+                <h3>Upload Progress</h3>
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <div class="progress-text" id="progressText">0%</div>
+                </div>
+                <div class="progress-details" id="progressDetails"></div>
+            </section>
+
+            <!-- File Management Section -->
+            <section class="file-management">
+                <div class="management-header">
+                    <h2>📋 File Management</h2>
+                    <button class="btn btn-secondary" id="refreshBtn">
+                        <span class="btn-icon">🔄</span>
+                        Refresh
+                    </button>
+                </div>
+
+                <div class="file-grid" id="fileGrid">
+                    <!-- Files will be loaded here -->
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast"></div>
+
+    <script src="modern_upload.js"></script>
+</body>
+</html>
