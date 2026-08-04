@@ -113,7 +113,7 @@ Current module version: **YDP1010BT006-V1**. Electrical and mechanical details f
 - Technical support / product inquiry: <luyu@osptek.com>
 - QQ group (China): **985881096**
 - Website: <https://osptek.com/>
-- For questions or problems, you can also open a GitHub [Issue](https://github.com/osptek/10.1-tft-800x1280-mipi-jd9366/issues)
+- Feel free to open an Issue in this repository if you have any questions
 
 ---
 

@@ -113,7 +113,7 @@ OSPTEK **10.1 寸 800×1280 TFT** 是一款 **MIPI DSI** 接口彩色显示模�
 - 技术支持 / 产品咨询：<luyu@osptek.com>
 - QQ 技术交流群：**985881096**
 - 公司官网：<https://osptek.com/>
-- 使用中如有问题，也可在本仓库 [Issues](https://github.com/osptek/10.1-tft-800x1280-mipi-jd9366/issues) 中提问
+- 有任何问题，都可以在本仓库 Issues 中提问
 
 ---
 
