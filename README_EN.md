@@ -46,8 +46,7 @@ Repo id: `10.1-tft-800x1280-mipi-jd9366`
 
 <p align="center"><img alt="YDP1010BT006-V1" src="./images/YDP1010BT006-V1.png" width="320" /></p>
 
-**Notes:** Module.
-
+**Notes:** With touch (JD9366).
 ---
 
 ## How to Switch Branches
