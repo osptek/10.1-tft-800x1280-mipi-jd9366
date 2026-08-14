@@ -1,0 +1,23 @@
+## IDF Component Manager Manifest File
+dependencies:
+  lvgl/lvgl:
+    version: "9.2.*"
+    public: true
+
+  espressif/libpng:
+    version: "1.6.39"
+    public: true
+
+  espressif/esp_audio_codec:
+    version: "^2.3.0"
+    public: true
+
+  espressif/esp_tinyusb:
+    version: "1.7.*"
+
+  espressif/esp_wifi_remote:
+    version: "*"
+    
+  espressif/esp_hosted:
+    version: "1.4.*"
+    
