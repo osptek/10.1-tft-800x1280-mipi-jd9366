@@ -1,3 +1,10 @@
+/*
+ * SPDX-FileCopyrightText: Copyright 2026 OSPTEK
+ * SPDX-License-Identifier: CC-BY-4.0
+ *
+ * https://github.com/osptek
+ */
+
 #include "lvgl_init.h"
 #include "esp_sdmmc_card.h"
 #include "esp_mjpeg_decode.h"

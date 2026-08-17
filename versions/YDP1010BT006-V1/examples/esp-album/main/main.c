@@ -2,6 +2,9 @@
  * SPDX-FileCopyrightText: 2025 Espressif Systems (Shanghai) CO LTD
  *
  * SPDX-License-Identifier: Apache-2.0
+ *
+ * Modifications Copyright 2026 OSPTEK
+ * https://github.com/osptek
  */
 
 #include "esp_log.h"
