@@ -1,0 +1,60 @@
+/dts-v1/;
+/plugin/;
+
+/ {
+	compatible = "raspberrypi,5-model-b", "brcm,bcm2712";
+
+	fragment@0 {
+		target = <&i2c_csi_dsi1>;
+		__overlay__ {
+			#address-cells = <1>;
+			#size-cells = <0>;
+			status = "okay";
+
+			jd9366_touch: touchscreen@68 {
+				compatible = "jd9366_touch";
+				reg = <0x68>;
+				status = "okay";
+
+				touchscreen-size-x = <800>;
+				touchscreen-size-y = <1280>;
+
+				/* 可选：有接线时再打开
+				interrupt-parent = <&gpio>;
+				interrupts = <17 IRQ_TYPE_EDGE_FALLING>;
+				reset-gpios = <&gpio 27 GPIO_ACTIVE_LOW>;
+				*/
+			};
+		};
+	};
+
+	fragment@1 {
+		target = <&dsi1>;
+		__overlay__ {
+			status = "okay";
+			#address-cells = <1>;
+			#size-cells = <0>;
+
+			port {
+				dsi_out: endpoint {
+					remote-endpoint = <&panel_in>;
+				};
+			};
+
+			panel@0 {
+				compatible = "jadard,jd9366-800x1280";
+				reg = <0>;
+				status = "okay";
+
+				/* 如果有 Reset 引脚，取消注释并改写实际 GPIO */
+				/* reset-gpios = <&gpio 17 1>; */
+
+				port {
+					panel_in: endpoint {
+						remote-endpoint = <&dsi_out>;
+					};
+				};
+			};
+		};
+	};
+};

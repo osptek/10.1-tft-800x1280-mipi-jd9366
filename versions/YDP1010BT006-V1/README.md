@@ -57,6 +57,8 @@ OSPTEK **10.1 寸 800×1280 TFT** 是一款 **MIPI DSI** 接口彩色显示模�
 | ESP32-P4 · MJPEG 解码 + LVGL9 | [`examples/mjpeg/p4-idf_jd9366-mipi_mjpeg-decode_lvgl-v9/`](./examples/mjpeg/p4-idf_jd9366-mipi_mjpeg-decode_lvgl-v9/) |
 | ESP32-P4 · 鱼鹰相册示例 | [`examples/esp-album/`](./examples/esp-album/) |
 | ESP32-P4 · 鱼鹰 PPA 显示示例 | [`examples/yuying-ppa/`](./examples/yuying-ppa/) |
+| Raspberry Pi 5 · JD9366 800×1280 面板驱动 / DT overlay（仅显示） | [`examples/rpi5-panel-jd9366-800x1280/`](./examples/rpi5-panel-jd9366-800x1280/) |
+| Raspberry Pi 5 · JD9366 显示 + 触摸驱动 / DT overlay | [`examples/rpi5-panel-jd9366-touch-800x1280/`](./examples/rpi5-panel-jd9366-touch-800x1280/) |
 
 ## 仓库结构
 
@@ -91,6 +93,8 @@ OSPTEK **10.1 寸 800×1280 TFT** 是一款 **MIPI DSI** 接口彩色显示模�
 - [ESP32-P4 MJPEG 解码 + LVGL9](./examples/mjpeg/p4-idf_jd9366-mipi_mjpeg-decode_lvgl-v9/)
 - [ESP32-P4 鱼鹰相册](./examples/esp-album/)
 - [ESP32-P4 鱼鹰 PPA](./examples/yuying-ppa/)
+- [Raspberry Pi 5 JD9366 面板（仅显示）](./examples/rpi5-panel-jd9366-800x1280/)
+- [Raspberry Pi 5 JD9366 显示 + 触摸](./examples/rpi5-panel-jd9366-touch-800x1280/)
 
 ## 购买链接
 

@@ -57,6 +57,8 @@ Current module version: **YDP1010BT006-V1**. Electrical and mechanical details f
 | ESP32-P4 · MJPEG decode + LVGL9 | [`examples/mjpeg/p4-idf_jd9366-mipi_mjpeg-decode_lvgl-v9/`](./examples/mjpeg/p4-idf_jd9366-mipi_mjpeg-decode_lvgl-v9/) |
 | ESP32-P4 · OSPTEK album demo | [`examples/esp-album/`](./examples/esp-album/) |
 | ESP32-P4 · OSPTEK PPA display demo | [`examples/yuying-ppa/`](./examples/yuying-ppa/) |
+| Raspberry Pi 5 · JD9366 800×1280 panel / DT overlay (display only) | [`examples/rpi5-panel-jd9366-800x1280/`](./examples/rpi5-panel-jd9366-800x1280/) |
+| Raspberry Pi 5 · JD9366 display + touch / DT overlay | [`examples/rpi5-panel-jd9366-touch-800x1280/`](./examples/rpi5-panel-jd9366-touch-800x1280/) |
 
 ## Repository layout
 
@@ -91,6 +93,8 @@ Current module version: **YDP1010BT006-V1**. Electrical and mechanical details f
 - [ESP32-P4 MJPEG decode + LVGL9](./examples/mjpeg/p4-idf_jd9366-mipi_mjpeg-decode_lvgl-v9/)
 - [ESP32-P4 OSPTEK album](./examples/esp-album/)
 - [ESP32-P4 OSPTEK PPA](./examples/yuying-ppa/)
+- [Raspberry Pi 5 JD9366 panel (display only)](./examples/rpi5-panel-jd9366-800x1280/)
+- [Raspberry Pi 5 JD9366 display + touch](./examples/rpi5-panel-jd9366-touch-800x1280/)
 
 ## Buy
 
