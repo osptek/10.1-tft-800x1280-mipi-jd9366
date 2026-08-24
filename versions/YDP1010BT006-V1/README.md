@@ -19,6 +19,7 @@
 
 - [产品简介](#产品简介)
 - [规格参数](#规格参数)
+- [配套外壳](#配套外壳)
 - [示例工程](#示例工程)
 - [仓库结构](#仓库结构)
 - [相关资料](#相关资料)
@@ -47,6 +48,16 @@ OSPTEK **10.1 寸 800×1280 TFT** 是一款 **MIPI DSI** 接口彩色显示模�
 | 触摸驱动 | JD9366 |
 
 > 完整外形尺寸、FPC 定义、供电与时序以产品规格书 / 驱动手册为准。
+
+## 配套外壳
+
+可选 **3D 打印外壳**，适配本 10.1 寸模组；打印模型由 **LinLuo** 发布于 **拓竹 MakerWorld**。
+
+<p align="center"><img alt="10.1 寸配套外壳正面宣传图" src="./images/enclosure-front.png" width="640" /></p>
+
+<p align="center"><img alt="10.1 寸配套外壳背面宣传图" src="./images/enclosure-back.png" width="640" /></p>
+
+- MakerWorld：<https://makerworld.com.cn/zh/@LinLuo>
 
 ## 示例工程
 
@@ -85,6 +96,7 @@ OSPTEK **10.1 寸 800×1280 TFT** 是一款 **MIPI DSI** 接口彩色显示模�
 | 转接板原理图截图 | [`docs/adapter-board-schematic.jpg`](./docs/adapter-board-schematic.jpg) |
 | 初始化序列（MIPI 2 lane） | [`docs/JD9366TC_CSOT10.1_MIPI2L_init.txt`](./docs/JD9366TC_CSOT10.1_MIPI2L_init.txt) |
 | 初始化序列（MIPI 4 lane） | [`docs/JD9366TC_CSOT10.1_MIPI4L_init_20250320.txt`](./docs/JD9366TC_CSOT10.1_MIPI4L_init_20250320.txt) |
+| 配套外壳（MakerWorld · LinLuo） | <https://makerworld.com.cn/zh/@LinLuo> |
 
 ### 示例工程
 

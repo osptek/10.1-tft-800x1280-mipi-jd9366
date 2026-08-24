@@ -19,6 +19,7 @@
 
 - [Overview](#overview)
 - [Specifications](#specifications)
+- [Enclosure](#enclosure)
 - [Sample projects](#sample-projects)
 - [Repository layout](#repository-layout)
 - [Resources](#resources)
@@ -47,6 +48,16 @@ Current module version: **YDP1010BT006-V1**. Electrical and mechanical details f
 | Touch IC | JD9366 |
 
 > Full outline, FPC definition, power, and timing follow the product datasheet / driver IC datasheet.
+
+## Enclosure
+
+Optional **3D-printed enclosure** for this 10.1″ module. Print files are published by **LinLuo** on **Bambu Lab MakerWorld**.
+
+<p align="center"><img alt="10.1″ enclosure front promo" src="./images/enclosure-front.png" width="640" /></p>
+
+<p align="center"><img alt="10.1″ enclosure back promo" src="./images/enclosure-back.png" width="640" /></p>
+
+- MakerWorld author: <https://makerworld.com.cn/zh/@LinLuo>
 
 ## Sample projects
 
@@ -85,6 +96,7 @@ Current module version: **YDP1010BT006-V1**. Electrical and mechanical details f
 | Adapter board schematic (screenshot) | [`docs/adapter-board-schematic.jpg`](./docs/adapter-board-schematic.jpg) |
 | Init sequence (MIPI 2-lane) | [`docs/JD9366TC_CSOT10.1_MIPI2L_init.txt`](./docs/JD9366TC_CSOT10.1_MIPI2L_init.txt) |
 | Init sequence (MIPI 4-lane) | [`docs/JD9366TC_CSOT10.1_MIPI4L_init_20250320.txt`](./docs/JD9366TC_CSOT10.1_MIPI4L_init_20250320.txt) |
+| Enclosure (MakerWorld · LinLuo) | <https://makerworld.com.cn/zh/@LinLuo> |
 
 ### Samples
 
