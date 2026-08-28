@@ -1,55 +1,36 @@
+# Raspberry Pi 5 · JD9366 显示 + 触摸 · LVGL（800×1280）
+
+本目录为 **YDP1010BT006-V1** 在 Raspberry Pi 5 上跑 **LVGL（lv_port_linux / DRM + EVDEV）** 的参考：含显示/触摸内核模块、DT overlay，以及替换 `lv_port_linux` 用的 `main.c`。
+
+本目录文件：
+
+| 文件 | 说明 |
+| ---- | ---- |
+| `panel-jd9366-800x1280.c` | JD9366 DRM panel 驱动 |
+| `jd9366_touch.c` | 触摸驱动 |
+| `Makefile` | 内核模块编译 |
+| `vc4-kms-dsi-jd9366-lcd-touch-800x1280-overlay.dts` | DSI + 触摸 overlay |
+| `main.c` | 拷入 `lv_port_linux/src/main.c` 的参考实现（默认 800×1280 / DRM / EVDEV） |
+
+仅点亮显示+触摸、不跑 LVGL 时，也可只用同级 [`../rpi5-panel-jd9366-touch-800x1280/`](../rpi5-panel-jd9366-touch-800x1280/)。
+
+---
+
 # 1. 准备工作
 
-```
-# 更新软件包列表
+```bash
 sudo apt update
-
-# 安装编译工具链与匹配的内核头文件
-sudo apt install build-essential linux-headers-$(uname -r)
-
-# 创建文件夹并进入
-mkdir vc4-kms-dsi-jd9366-touch && cd vc4-kms-dsi-jd9366-touch
+sudo apt install build-essential linux-headers-$(uname -r) device-tree-compiler
 ```
 
-# 2. 驱动源码（panel-jd9366-800x1280.c）
+将本目录拷到树莓派后进入该目录。
 
-```
-sudo nano panel-jd9366-800x1280.c
-```
+# 2. 编译并安装内核模块
 
-# 3. 驱动源码（jd9366_touch.c）
-
-```
-sudo nano jd9366_touch.c
-```
-
-
-
-# 4. Makefile
-
-```
-sudo nano Makefile
-```
-
-```
-obj-m += panel-jd9366-800x1280.o
-obj-m += jd9366_touch.o
-
-all:
-	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
-
-clean:
-	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) clean
-```
-
-> 编译：
-
-```
+```bash
 make clean
 make
-```
 
-```
 sudo mkdir -p /lib/modules/$(uname -r)/kernel/drivers/gpu/drm/panel/
 sudo cp panel-jd9366-800x1280.ko /lib/modules/$(uname -r)/kernel/drivers/gpu/drm/panel/
 
@@ -59,96 +40,72 @@ sudo cp jd9366_touch.ko /lib/modules/$(uname -r)/kernel/drivers/input/touchscree
 sudo depmod -a
 ```
 
-# 5. 设备树 Overlay（vc4-kms-dsi-jd9366-touch.dts）
+开机自动加载：编辑 `/etc/modules`，末尾加上：
 
-```
-sudo nano vc4-kms-dsi-jd9366-touch.dts
-```
-
-> 编译并安装：
-
-```
-dtc -I dts -O dtb -o vc4-kms-dsi-jd9366-touch.dtbo vc4-kms-dsi-jd9366-touch.dts
-
-sudo cp vc4-kms-dsi-jd9366-touch.dtbo /boot/firmware/overlays/
+```text
+panel-jd9366-800x1280
+jd9366_touch
 ```
 
+# 3. 编译并安装 Overlay
 
-# 5. 启用
-
-> 编辑 /boot/firmware/config.txt，添加：
-
-```
-sudo nano  /boot/firmware/config.txt
+```bash
+dtc -@ -I dts -O dtb -o vc4-kms-dsi-jd9366-lcd-touch-800x1280-overlay.dtbo vc4-kms-dsi-jd9366-lcd-touch-800x1280-overlay.dts
+sudo cp vc4-kms-dsi-jd9366-lcd-touch-800x1280-overlay.dtbo /boot/firmware/overlays/
 ```
 
+> Overlay **必须**使用 `dtc -@`，否则符号修复可能失败，DTO 无法正确加载。
 
+# 4. 启用 Overlay
 
+编辑 `/boot/firmware/config.txt`：
+
+```bash
+sudo nano /boot/firmware/config.txt
 ```
+
+```text
 # 关闭自动检测，避免和手动 overlay 冲突
 display_auto_detect=0
 
 dtoverlay=vc4-kms-v3d
 
-dtoverlay=vc4-kms-dsi-jd9366-touch
+# 启用 JD9366 显示与触摸 Overlay
+dtoverlay=vc4-kms-dsi-jd9366-lcd-touch-800x1280-overlay
 
 # 忽略官方 LCD
 ignore_lcd=1
 ```
 
-> 重启：
-
-```
+```bash
 sudo reboot
 ```
 
+# 5. 关闭桌面（若有桌面；无桌面可跳过）
 
+## 5.1 开机进入命令行
 
-# 6.关闭桌面（如果有就操作，没有就跳过这个步骤）
-
-
-
-## 6.1_第一步：关闭系统桌面服务
-
-在 Raspberry Pi 5 官方系统（Bookworm 及以上）中，默认使用的是基于 Wayland 的桌面合成器（Labwc 或 Wayfire）及 LightDM 登录管理器。
-
-1. 打开终端，使用命令行配置工具：
-
-   ```
-   sudo raspi-config
-   ```
-
-  2.依次选择：
-
-- **`1 System Options`** -> **`S5 Boot / Auto Login`**
-- 选择 **`B1 Console`** 或 **`B2 Console Autologin`**（推荐选 Autologin，即开机自动登录到命令行控制台）。
-
- 3.退出 `raspi-config` 并重启系统：
-
-```
-sudo reboot
+```bash
+sudo raspi-config
 ```
 
-重启后，树莓派将直接停留在命令行，桌面合成器不再运行，不会占用 DRM 显卡资源。
+- `1 System Options` → `S5 Boot` → 选 **Console**
+- `1 System Options` → `S6 Auto Login`：按需要选择是否自动登录
+- 退出后重启：`sudo reboot`
 
+## 5.2 用户组权限
 
-
-## 6.2_第二步：添加运行权限与组配置
-
-在纯命令行下运行 DRM 程序或读取输入设备，用户需要拥有 `video` 和 `input` 组的权限：
-
-```
-sudo usermod -aG video,input $USER
+```bash
+sudo usermod -aG video,input,render $USER
 ```
 
-(配置后建议重新登录或重启生效)
+重新登录或重启后生效。
 
-# 7.下载编辑运行LVGL
+# 6. 安装并运行 LVGL（lv_port_linux）
 
-## 7.1_安装必要软件
+## 6.1 依赖
 
-```
-# Debian / Ubuntu
+```bash
 sudo apt install \
   build-essential cmake python3 python3-venv ninja-build \
   libsdl2-dev \
@@ -160,139 +117,84 @@ sudo apt install \
   libegl-dev libgles-dev libgl-dev
 ```
 
+## 6.2 克隆
 
-
-## 7.2_下载lv_port_linux
-
-```
-# 克隆指定分支并拉取子模块
+```bash
 git clone -b release/v9.5 --recursive https://github.com/lvgl/lv_port_linux.git
 cd lv_port_linux
 ```
 
+## 6.3 修改 `lv_conf.defaults`
 
-
-## 7.3_修改lv_conf.defaults文件配置
-
-```
-sudo nano lv_conf.defaults
+```bash
+nano lv_conf.defaults
 ```
 
+确保包含（或等价配置）：
 
-
-```
-/* 1. 设置色深为 32 */
-LV_COLOR_DEPTH	    32
-
-/* 2. 关闭 FBDEV 驱动 */
-LV_USE_LINUX_FBDEV       0
-
-/* 3. 开启 DRM 驱动 */
-LV_USE_LINUX_DRM         1
+```text
+LV_COLOR_DEPTH               32
+LV_USE_LINUX_FBDEV           0
+LV_USE_LINUX_DRM             1
 LV_USE_LINUX_DRM_GBM_BUFFERS 0
-
-/* 4. 开启 Evdev 触摸驱动 */
-LV_USE_EVDEV             1
-
-/* 5. 开启 Demo 支持 */
-LV_USE_DEMO_WIDGETS      1
+LV_USE_EVDEV                 1
+LV_USE_DEMO_WIDGETS          1
 ```
 
-## 7.4_查找树莓派 DRM 屏幕设备节点
+## 6.4 确认 DRM / 触摸节点
 
-```
+DRM（找 `status` 为 `connected` 的 DSI）：
+
+```bash
 for file in /sys/class/drm/card*-*/status; do echo "$file -> $(cat $file)"; done
 ```
 
-在输出路径中，根据 `status` 为 **`connected`** 的行提取设备节点：
+示例：`/sys/class/drm/card2-DSI-2/status -> connected` → 设备节点多为 **`/dev/dri/card2`**（以实机为准）。
 
-```
-/sys/class/drm/card1-HDMI-A-1/status -> disconnected
-/sys/class/drm/card1-HDMI-A-2/status -> disconnected
-/sys/class/drm/card1-Writeback-1/status -> unknown
-/sys/class/drm/card1-Writeback-2/status -> unknown
-/sys/class/drm/card2-DSI-2/status -> connected
-```
+触摸：
 
-**输出示例**：`/sys/class/drm/card2-DSI-2/status -> connected`
-
-**设备节点**：路径中的 `card2` 对应屏幕设备节点 **/dev/dri/card2**
-
-## 7.5_查看触摸设备节点
-
-```
+```bash
 cat /proc/bus/input/devices
 ```
 
-在输出结果中查找你的触摸屏芯片名称（例如 `jd9366_touch` 或 `cst820`），找到对应的 **`Handlers`** 行：
+查找本触摸芯片名称，在 `Handlers=` 中取 `eventN`，例如 `event5` → **`/dev/input/event5`**（以实机为准）。
 
-```
-I: Bus=0018 Vendor=0000 Product=0000 Version=0000
-N: Name="jd9366_touch"
-P: Phys=i2c/jd9366_touch
-S: Sysfs=/devices/platform/axi/1000120000.pcie/1f00080000.i2c/i2c-11/11-0068/input/input5
-U: Uniq=
-H: Handlers=event5 
-B: PROP=2
-B: EV=b
-B: KEY=400 0 0 0 0 0
-B: ABS=2e0800000000000
-```
+## 6.5 替换 `src/main.c`
 
-在上例中，`Handlers=event5` 即说明触摸屏对应的设备节点为 **/dev/input/event5**。
+将本目录 `main.c` 拷到 `lv_port_linux/src/main.c`。若实机 DRM/触摸节点不是 `card2` / `event5`，请改 `main.c` 里：
 
+- `LV_LINUX_DRM_CARD`
+- `LV_LINUX_EVDEV_POINTER_DEVICE`
 
+（默认分辨率已按 **800×1280** 配置。）
 
-## 7.6_修改main.c
+## 6.6 若构建未生成 `lv_conf.h`
 
-```
-sudo nano main.c
-```
+参见上游说明：<https://github.com/lvgl/lv_port_linux/issues/127>  
+可在 CMake 中确保：
 
-## 7.7_修复未能产生lv_conf.h问题
-
-```
-https://github.com/lvgl/lv_port_linux/issues/127
-```
-
-```
+```cmake
 find_package(Python3 REQUIRED COMPONENTS Interpreter)
 ```
 
-## 7.8_编译和运行
+## 6.7 编译与运行
 
-> 编译
-
-```
+```bash
 cd lv_port_linux
-
 cmake -B build -GNinja
 cmake --build build
-```
-
-> 运行
-
-```
 ./build/bin/lvglsim
 ```
 
-# 8.开机运行lvgl
+# 7. 开机自启（可选，systemd）
 
-在树莓派 (Raspberry Pi OS) 上实现开机自动运行 LVGL 程序，最稳定、标准的方法是使用 **systemd 服务**。这样不仅可以在系统启动时自动加载，还能在程序异常崩溃时自动重启。
-
-以下是完整的配置步骤：
-
-### 第一步：创建 systemd 服务文件
-
-在终端中执行以下命令，创建一个名为 `lvgl.service` 的服务配置：
-
-```
+```bash
 sudo nano /etc/systemd/system/lvgl.service
 ```
 
-在打开的文件中粘贴以下内容（注意根据你的实际路径确认可执行文件和目录）：
+按实际用户与路径修改：
 
-```
+```ini
 [Unit]
 Description=LVGL Application Service
 After=multi-user.target
@@ -300,16 +202,11 @@ Wants=multi-user.target
 
 [Service]
 Type=simple
-# 你的树莓派用户名，通常为 pi
 User=pi
-# 你的工作目录路径
 WorkingDirectory=/home/pi/lv_port_linux
-# 可执行文件的绝对路径
 ExecStart=/home/pi/lv_port_linux/build/bin/lvglsim
-# 如果崩溃自动重启
 Restart=always
 RestartSec=3
-# 确保 DRM/TTY 控制台输出正常
 StandardOutput=journal
 StandardError=journal
 
@@ -317,73 +214,19 @@ StandardError=journal
 WantedBy=multi-user.target
 ```
 
-
-
-### 第二步：给予权限与重载配置
-
-因为 DRM 节点 `/dev/dri/card2` 和输入节点 `/dev/input/event5` 需要相关用户组权限，确保 `pi` 用户在 `render`, `video` 和 `input` 组中：
-
-```
+```bash
 sudo usermod -aG render,video,input pi
-```
-
-
-
-重新加载 systemd 管理配置：
-
-```
 sudo systemctl daemon-reload
-```
-
-### 第三步：测试服务运行
-
-在设置开机自启前，先手动启动服务测试是否正常显示：
-
-```
-# 启动服务
 sudo systemctl start lvgl.service
-
-# 查看服务状态（查看是否有报错）
 sudo systemctl status lvgl.service
-```
-
-如果屏幕正常显示 LVGL 界面且没有任何报错，可以停止测试：
-
-```
-sudo systemctl stop lvgl.service
-```
-
-### 第四步：开启开机自启
-
-测试无误后，执行以下命令开启开机自动运行：
-
-```
+# 确认正常后再：
 sudo systemctl enable lvgl.service
 ```
 
-此时重启树莓派即可验证：
+常用：
 
-```
-sudo reboot
-```
-
-### 实用维护命令小结
-
-- **查看日志/排查报错**：
-
-```
+```bash
 sudo journalctl -u lvgl.service -f
-```
-
-- **临时停止开机自启程序**：
-
-```
 sudo systemctl stop lvgl.service
-```
-
-- **禁用开机自启**：
-
-````
 sudo systemctl disable lvgl.service
-````
-
+```

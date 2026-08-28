@@ -70,7 +70,7 @@ Optional **3D-printed enclosure** for this 10.1″ module. Print files are publi
 | ESP32-P4 · OSPTEK PPA display demo | [`examples/yuying-ppa/`](./examples/yuying-ppa/) |
 | Raspberry Pi 5 · JD9366 800×1280 panel / DT overlay (display only) | [`examples/rpi5-panel-jd9366-800x1280/`](./examples/rpi5-panel-jd9366-800x1280/) |
 | Raspberry Pi 5 · JD9366 display + touch / DT overlay | [`examples/rpi5-panel-jd9366-touch-800x1280/`](./examples/rpi5-panel-jd9366-touch-800x1280/) |
-| Raspberry Pi 5 · JD9366 display + touch · LVGL9 runner | [`examples/rpi5-lvgl-jd9366-touch-800x1280/`](./examples/rpi5-lvgl-jd9366-touch-800x1280/) |
+| Raspberry Pi 5 · JD9366 display + touch · LVGL (DRM + EVDEV) | [`examples/rpi5-lvgl-jd9366-touch-800x1280/`](./examples/rpi5-lvgl-jd9366-touch-800x1280/) |
 
 ## Repository layout
 
@@ -108,7 +108,7 @@ Optional **3D-printed enclosure** for this 10.1″ module. Print files are publi
 - [ESP32-P4 OSPTEK PPA](./examples/yuying-ppa/)
 - [Raspberry Pi 5 JD9366 panel (display only)](./examples/rpi5-panel-jd9366-800x1280/)
 - [Raspberry Pi 5 JD9366 display + touch](./examples/rpi5-panel-jd9366-touch-800x1280/)
-- [Raspberry Pi 5 JD9366 display + touch · LVGL9](./examples/rpi5-lvgl-jd9366-touch-800x1280/)
+- [Raspberry Pi 5 JD9366 display + touch · LVGL](./examples/rpi5-lvgl-jd9366-touch-800x1280/)
 
 ## Buy
 
