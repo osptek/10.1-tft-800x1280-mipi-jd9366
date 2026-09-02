@@ -297,6 +297,33 @@ static esp_err_t panel_jd9366_init(esp_lcd_panel_t *panel)
     }
     ESP_LOGD(TAG, "send init commands success");
 
+    // ------------------ 读取并打印 0Ah 寄存器数值 ------------------
+    uint8_t pwr_mode = 0;
+    esp_err_t ret = esp_lcd_panel_io_rx_param(io, 0x0A, &pwr_mode, 1);
+
+    if (ret == ESP_OK) {
+        // 读取成功，打印十六进制数值（大写，自动补零）
+        ESP_LOGI(TAG, "Read 0Ah register value: 0x%02X", pwr_mode);
+    } else {
+        ESP_LOGE(TAG, "Read 0Ah register failed, ret: %s", esp_err_to_name(ret));
+    }
+
+    // 校验数值：如果不等于 0x9C 或读取失败，则复位屏幕
+    if (ret != ESP_OK || pwr_mode != 0x9C) {
+        ESP_LOGW(TAG, "0Ah value mismatch or read error! Resetting panel...");
+
+        // 执行屏幕复位
+        ESP_RETURN_ON_ERROR(panel_jd9366_reset(panel), TAG, "reset LCD panel failed");
+
+        // 复位后再次读取并打印，观察是否恢复
+        if (esp_lcd_panel_io_rx_param(io, 0x0A, &pwr_mode, 1) == ESP_OK) {
+            ESP_LOGI(TAG, "Re-read 0Ah value after reset: 0x%02X", pwr_mode);
+        }
+    } else {
+        ESP_LOGI(TAG, "0Ah value is 0x9C, status normal.");
+    }
+    // -------------------------------------------------------------------
+
     ESP_RETURN_ON_ERROR(jd9366->init(panel), TAG, "init MIPI DPI panel failed");
 
     return ESP_OK;
@@ -316,7 +343,7 @@ static esp_err_t panel_jd9366_reset(esp_lcd_panel_t *panel)
         gpio_set_level(jd9366->reset_gpio_num, !jd9366->flags.reset_level);
         vTaskDelay(pdMS_TO_TICKS(120));
     } else if (io) { // Perform software reset
-        ESP_RETURN_ON_ERROR(esp_lcd_panel_io_tx_param(io, LCD_CMD_SWRESET, NULL, 0), TAG, "send command failed");
+        // ESP_RETURN_ON_ERROR(esp_lcd_panel_io_tx_param(io, LCD_CMD_SWRESET, NULL, 0), TAG, "send command failed");
         vTaskDelay(pdMS_TO_TICKS(120));
     }
 
