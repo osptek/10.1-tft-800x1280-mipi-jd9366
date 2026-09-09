@@ -64,10 +64,7 @@ Optional **3D-printed enclosure** for this 10.1″ module. Print files are publi
 | Description | Path |
 | ---- | ---- |
 | ESP32-P4 · JD9366 MIPI + esp-lvgl-port / LVGL9 | [`examples/esp32p4-idf5_jd9366-mipi_esp-lvgl-port_lvgl9/`](./examples/esp32p4-idf5_jd9366-mipi_esp-lvgl-port_lvgl9/) |
-| ESP32-P4 · MJPEG decode | [`examples/mjpeg/p4-idf_jd9366-mipi_mjpeg-decode/`](./examples/mjpeg/p4-idf_jd9366-mipi_mjpeg-decode/) |
-| ESP32-P4 · MJPEG decode + LVGL9 | [`examples/mjpeg/p4-idf_jd9366-mipi_mjpeg-decode_lvgl-v9/`](./examples/mjpeg/p4-idf_jd9366-mipi_mjpeg-decode_lvgl-v9/) |
-| ESP32-P4 · OSPTEK album demo | [`examples/esp-album/`](./examples/esp-album/) |
-| ESP32-P4 · OSPTEK PPA display demo | [`examples/yuying-ppa/`](./examples/yuying-ppa/) |
+| ESP32-P4 · JD9366 MIPI + PPA landscape / LVGL9 | [`examples/esp32p4-idf5_jd9366-mipi_esp-lvgl-port_lvgl9_ppa/`](./examples/esp32p4-idf5_jd9366-mipi_esp-lvgl-port_lvgl9_ppa/) |
 | Raspberry Pi 5 · JD9366 800×1280 panel / DT overlay (display only) | [`examples/rpi5-panel-jd9366-800x1280/`](./examples/rpi5-panel-jd9366-800x1280/) |
 | Raspberry Pi 5 · JD9366 display + touch / DT overlay | [`examples/rpi5-panel-jd9366-touch-800x1280/`](./examples/rpi5-panel-jd9366-touch-800x1280/) |
 | Raspberry Pi 5 · JD9366 display + touch · LVGL (DRM + EVDEV) | [`examples/rpi5-lvgl-jd9366-touch-800x1280/`](./examples/rpi5-lvgl-jd9366-touch-800x1280/) |
@@ -102,10 +99,7 @@ Optional **3D-printed enclosure** for this 10.1″ module. Print files are publi
 ### Samples
 
 - [ESP32-P4 JD9366 MIPI + LVGL9](./examples/esp32p4-idf5_jd9366-mipi_esp-lvgl-port_lvgl9/)
-- [ESP32-P4 MJPEG decode](./examples/mjpeg/p4-idf_jd9366-mipi_mjpeg-decode/)
-- [ESP32-P4 MJPEG decode + LVGL9](./examples/mjpeg/p4-idf_jd9366-mipi_mjpeg-decode_lvgl-v9/)
-- [ESP32-P4 OSPTEK album](./examples/esp-album/)
-- [ESP32-P4 OSPTEK PPA](./examples/yuying-ppa/)
+- [ESP32-P4 JD9366 MIPI + PPA landscape / LVGL9](./examples/esp32p4-idf5_jd9366-mipi_esp-lvgl-port_lvgl9_ppa/)
 - [Raspberry Pi 5 JD9366 panel (display only)](./examples/rpi5-panel-jd9366-800x1280/)
 - [Raspberry Pi 5 JD9366 display + touch](./examples/rpi5-panel-jd9366-touch-800x1280/)
 - [Raspberry Pi 5 JD9366 display + touch · LVGL](./examples/rpi5-lvgl-jd9366-touch-800x1280/)

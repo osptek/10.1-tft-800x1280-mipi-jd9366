@@ -274,6 +274,8 @@ void app_main(void)
     /* Show LVGL objects */
     lvgl_port_lock(0);
 
+    lv_disp_set_rotation(lvgl_disp, LV_DISP_ROTATION_90);
+
     // lv_demo_music();
     lv_demo_widgets();
 
